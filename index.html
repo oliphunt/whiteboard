@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style type="text/css">
+  html, body { margin:0; padding:0; width:100%; height:100%; overflow: hidden;}
+  div {
+	margin: 0;
+	padding: 0;
+  }
+  #whiteboard {
+	  width: 100%;
+	  height: 100%;
+  }
+  #tools {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+  }
+  
+  </style>
+<script src='fabric.js'></script>
+</head>
+<body>
+<canvas id="whiteboard"></canvas>
+<div id=tools>
+    <input type="button" value="full screen on/off" onclick="toggleFullScreen()">
+    <input type="button" value="Black Pen" onclick="blackPen()">
+    <input type="button" value="Eraser" onclick="whitePen()">
+</div>
+
+<script type="text/javascript">
+      var canvas = new fabric.Canvas('whiteboard',{ isDrawingMode: true, freeDrawingLineWidth: 10 });
+      makeCanvasFitWindow(canvas);
+      
+      canvas.freeDrawingBrush.width = 10;
+      
+      function makeCanvasFitWindow(canvas){
+    	  var w = window,
+    	    d = document,
+    	    e = d.documentElement,
+    	    g = d.getElementsByTagName('body')[0],
+    	    x = w.innerWidth || e.clientWidth || g.clientWidth,
+    	    y = w.innerHeight|| e.clientHeight|| g.clientHeight;
+    	    canvas.setHeight(y);
+    	    canvas.setWidth(x);
+    	    canvas.calcOffset();
+      }
+      
+      function toggleFullScreen() {
+    	    if ((document.fullScreenElement && document.fullScreenElement !== null) ||    
+    	       (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+    	    if (document.documentElement.requestFullScreen) {  
+    	      document.documentElement.requestFullScreen();  
+    	    } else if (document.documentElement.mozRequestFullScreen) {  
+    	      document.documentElement.mozRequestFullScreen();  
+    	    } else if (document.documentElement.webkitRequestFullScreen) {  
+    	      document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);  
+    	    }  
+    	  } else {  
+    	    if (document.cancelFullScreen) {  
+    	      document.cancelFullScreen();  
+    	    } else if (document.mozCancelFullScreen) {  
+    	      document.mozCancelFullScreen();  
+    	    } else if (document.webkitCancelFullScreen) {  
+    	      document.webkitCancelFullScreen();  
+    	    }  
+    	  }  
+    	} 
+      
+      function blackPen(){
+    	  canvas.freeDrawingBrush.color = "#000000";
+    	  canvas.freeDrawingBrush.width = 10;
+      }
+      function whitePen(){
+          canvas.freeDrawingBrush.color = "#FFFFFF";
+          canvas.freeDrawingBrush.width = 75;
+      }
+      
+      window.onresize = function(event) {
+    	  makeCanvasFitWindow(canvas);
+      }
+</script>
+</body>
+</html>
